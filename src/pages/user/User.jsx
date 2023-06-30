@@ -1,22 +1,26 @@
 import React from 'react'
 import patient from "./../../assets/img/patients/patient1.jpg"
+import ModalPopup from '../../components/ModalPopup/ModalPopup'
 
 const User = () => {
   return (
     <>
 				 <div className="page-header">
-          <div className="row">
-            <div className="col-sm-12">
-              <h3 className="page-title">Welcome Admin!</h3>
-              <ul className="breadcrumb">
-                <li className="breadcrumb-item active">Users</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+					<div className="row">
+						<div className="col-sm-12">
+						<h3 className="page-title">Welcome Admin!</h3>
+						<ul className="breadcrumb">
+							<li className="breadcrumb-item active">Users</li>
+						</ul>
+						</div>
+					</div>
+				</div>
+				<ModalPopup target="userModalPopup">
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi assumenda laboriosam, exercitationem doloribus dolorem sequi quae totam rerum ipsam, natus neque fugiat eum ex inventore est nihil ab voluptate sed!</p>
+				</ModalPopup>
 					<div className="row">
 						<div className="col-md-12">
-						
+						<button className='btn btn-primary mb-3' data-target="#userModalPopup" data-toggle="modal">Add new user</button>
 
 							<div className="card card-table">
 								<div className="card-header">
