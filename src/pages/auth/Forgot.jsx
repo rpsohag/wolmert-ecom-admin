@@ -17,7 +17,7 @@ const Forgot = () => {
 								<h1>Forgot Password?</h1>
 								<p class="account-subtitle">Enter your email to get a password reset link</p>
 								
-								<form action="https://dreamguys.co.in/demo/doccure/admin/login.html">
+								<form action="/">
 									<div class="form-group">
 										<input class="form-control" type="text" placeholder="Email" />
 									</div>

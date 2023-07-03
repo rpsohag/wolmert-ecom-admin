@@ -4,6 +4,7 @@ import logoSmall from "./../../assets/img/logo-small.png"
 import logo from "./../../assets/img/logo.png"
 import avatar1 from "./../../assets/img/profiles/avatar-01.jpg"
 import doc from "./../../assets/img/doctors/doctor-thumb-01.jpg"
+import { Link } from 'react-router-dom'
 
 
 
@@ -13,17 +14,17 @@ const Header = () => {
      <div className="header">
     
     <div className="header-left">
-        <a href="index.html" className="logo">
+        <Link to="/" className="logo">
 <img src={logo} alt="Logo" />
-</a>
-<a href="index.html" className="logo logo-small">
-<img src={logoSmall} alt="Logo" width="30" height="30" />
-</a>
+</Link>
+    <Link to="/" className="logo logo-small">
+    <img src={logoSmall} alt="Logo" width="30" height="30" />
+    </Link>
     </div>
 
-<a href="" id="toggle_btn">
-<i className="fe fe-text-align-left"></i>
-</a>
+    <a href="" id="toggle_btn">
+    <i className="fe fe-text-align-left"></i>
+    </a>
 
 <div className="top-nav-search">
 <form>

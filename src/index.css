@@ -1,0 +1,39 @@
+.dataTables_filter{
+    width: 50%;
+    position: absolute;
+    right: 30px;
+    top: 22px;
+}
+.dataTables_filter input{
+    border: 1px solid #e9e9e9;
+    outline: none;
+    padding: 3px;
+    caret-color: #255a8e;
+}
+.card-table {
+    padding: 30px;
+}
+.dataTables_length select {
+    padding:  3px 5px;
+    border: 1px solid #e9e9e9;
+    border-radius: 3px;
+}
+.dataTables_paginate {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+}
+.paginate_button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #00d0f1;
+    color: #fff;
+    padding: 3px 13px;
+    cursor: pointer;
+}
+.paginate_button:hover{
+    color: #fff;
+}

@@ -4,6 +4,7 @@
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
+import Forgot from '../pages/auth/Forgot'
 
 const publicRouter = [
     {
@@ -13,6 +14,10 @@ const publicRouter = [
     {
         path: "/register",
         element: <Register/>
+    },
+    {
+        path: "/forgot",
+        element: <Forgot />
     }
 ];
 

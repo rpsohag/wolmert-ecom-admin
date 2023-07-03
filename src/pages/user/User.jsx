@@ -1,16 +1,21 @@
+import DataTable from "datatables.net-dt";
 import ModalPopup from "../../components/ModalPopup/ModalPopup";
 import patient from "./../../assets/img/patients/patient1.jpg"
+import { useEffect } from "react";
 
 
 const User = () => {
+	useEffect(() => {
+		new DataTable(".datatable")
+	  },[])
 	return (
 	  <>
 		<div className="page-header">
 		  <div className="row">
 			<div className="col-sm-12">
-			  <h3 className="page-title">Welcome Admin!</h3>
+			  <h3 className="page-title">User List!</h3>
 			  <ul className="breadcrumb">
-				<li className="breadcrumb-item active">Users</li>
+				<li className="breadcrumb-item active">dashboard</li>
 			  </ul>
 			</div>
 		  </div>
@@ -22,12 +27,9 @@ const User = () => {
 		<div className="col-md-12">
 		<button className='btn btn-primary mb-3' data-target="#userModalPopup" data-toggle="modal">Add new user</button>
 			<div className="card card-table">
-				<div className="card-header">
-					<h4 className="card-title">Appointment List</h4>
-				</div>
 				<div className="card-body">
 					<div className="table-responsive">
-						<table className="table table-hover table-center mb-0">
+						<table className="datatable table table-hover table-center mb-0">
 							<thead>
 								<tr>
 									<th>Doctor Name</th>
