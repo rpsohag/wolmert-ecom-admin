@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logoWhite from "./../../assets/img/logo-white.png";
+import { useDispatch, useSelector } from "react-redux";
+import { createUser } from "../../features/auth/authApiSlice";
+import { createToast } from "../../utility/toastAlert";
+import { setMessageEmpty } from "../../features/auth/authSlice";
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const { error, message } = useSelector((state) => state.auth);
   const [input, setInput] = useState({
     name: "",
     email: "",
@@ -15,6 +21,40 @@ const Register = () => {
       [e.target.name]: e.target.value,
     }));
   };
+
+  const handleUserRegister = (e) => {
+    e.preventDefault();
+    if (!input.name || !input.email || !input.password || !input.cpassword) {
+      createToast("All fields are required!", "error");
+    } else if (input.password !== input.cpassword) {
+      createToast("Password not matched!", "error");
+    } else {
+      dispatch(
+        createUser({
+          name: input.name,
+          email: input.email,
+          password: input.password,
+        })
+      );
+      setInput({
+        name: "",
+        email: "",
+        password: "",
+        cpassword: "",
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (error) {
+      createToast(error, "error");
+      dispatch(setMessageEmpty());
+    }
+    if (message) {
+      createToast(message, "success");
+      dispatch(setMessageEmpty());
+    }
+  }, [error, message]);
 
   return (
     <>
@@ -30,7 +70,7 @@ const Register = () => {
                   <h1>Register</h1>
                   <p className="account-subtitle">Access to our dashboard</p>
 
-                  <form>
+                  <form onSubmit={handleUserRegister}>
                     <div className="form-group">
                       <input
                         className="form-control"
