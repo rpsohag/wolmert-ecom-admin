@@ -6,8 +6,26 @@ import axios from "axios";
 export const createUser = createAsyncThunk("auth/createUser", async (data) => {
   try {
     const response = await axios.post(
-      "http://127.0.01:5000/api/v1/auth/register",
-      data
+      "http://localhost:5000/api/v1/auth/register",
+      data,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+});
+
+export const loginUser = createAsyncThunk("auth/loginUser", async (data) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/v1/auth/login",
+      data,
+      {
+        withCredentials: true,
+      }
     );
     return response.data;
   } catch (error) {
