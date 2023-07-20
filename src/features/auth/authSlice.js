@@ -1,11 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUser, loginUser, logoutUser } from "./authApiSlice";
+import {
+  createUser,
+  getLoggedInUser,
+  loginUser,
+  logoutUser,
+} from "./authApiSlice";
 
 // create auth slice
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
+    user: localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : null,
     message: null,
     error: null,
   },
@@ -29,6 +36,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.message = action.payload.message;
         state.user = action.payload.user;
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.error = action.error.message;
@@ -36,6 +44,14 @@ const authSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state, action) => {
         state.message = action.payload.message;
         state.user = null;
+        localStorage.removeItem("user");
+      })
+      .addCase(getLoggedInUser.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.user = null;
+      })
+      .addCase(getLoggedInUser.fulfilled, (state, action) => {
+        state.user = action.payload;
       });
   },
 });

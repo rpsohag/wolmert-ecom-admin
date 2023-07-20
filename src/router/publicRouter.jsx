@@ -1,26 +1,29 @@
-
-
 // create public router
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
-import Forgot from '../pages/auth/Forgot'
+import Forgot from "../pages/auth/Forgot";
+import PublicGuard from "./publicGuard";
 
-const publicRouter = [
-    {
+const PublicRouter = [
+  {
+    element: <PublicGuard />,
+    children: [
+      {
         path: "/login",
-        element: <Login/>
-    },
-    {
+        element: <Login />,
+      },
+      {
         path: "/register",
-        element: <Register/>
-    },
-    {
+        element: <Register />,
+      },
+      {
         path: "/forgot",
-        element: <Forgot />
-    }
+        element: <Forgot />,
+      },
+    ],
+  },
 ];
 
-
 // export router
-export default publicRouter;
+export default PublicRouter;
