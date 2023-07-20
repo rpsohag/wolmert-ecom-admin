@@ -5,13 +5,15 @@ import logo from "./../../assets/img/logo.png";
 import avatar1 from "./../../assets/img/profiles/avatar-01.jpg";
 import doc from "./../../assets/img/doctors/doctor-thumb-01.jpg";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logoutUser } from "../../features/auth/authApiSlice";
+import useAuthUser from "../../hooks/useAuthUser";
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, message } = useSelector((state) => state.auth);
+  const { user } = useAuthUser();
+
   const handleUserLogout = (e) => {
     e.preventDefault();
     dispatch(logoutUser());
@@ -186,9 +188,13 @@ const Header = () => {
               <span className="user-img">
                 <img
                   className="rounded-circle"
-                  src={avatar1}
+                  src={
+                    user?.photo
+                      ? user?.photo
+                      : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+                  }
                   width="31"
-                  alt="Ryan Taylor"
+                  alt={user?.name}
                 />
               </span>
             </a>
@@ -196,14 +202,18 @@ const Header = () => {
               <div className="user-header">
                 <div className="avatar avatar-sm">
                   <img
-                    src={avatar1}
-                    alt="User Image"
+                    src={
+                      user?.photo
+                        ? user?.photo
+                        : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+                    }
+                    alt={user?.name}
                     className="avatar-img rounded-circle"
                   />
                 </div>
                 <div className="user-text">
-                  <h6>Ryan Taylor</h6>
-                  <p className="text-muted mb-0">Administrator</p>
+                  <h6>{user?.name}</h6>
+                  <p className="text-muted mb-0">{user?.role}</p>
                 </div>
               </div>
               <a className="dropdown-item" href="profile.html">

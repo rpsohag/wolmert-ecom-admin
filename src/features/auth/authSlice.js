@@ -57,7 +57,9 @@ const authSlice = createSlice({
 });
 
 // export selector
-export const { setMessageEmpty } = authSlice.actions;
+export const getAuthData = (state) => state.auth;
+
 // export actions
+export const { setMessageEmpty } = authSlice.actions;
 
 export default authSlice.reducer;
