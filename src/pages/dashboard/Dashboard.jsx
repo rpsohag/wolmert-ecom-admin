@@ -6,12 +6,27 @@ import Specialities3 from "./../../assets/img/specialities/specialities-03.png";
 import Specialities4 from "./../../assets/img/specialities/specialities-04.png";
 import Specialities5 from "./../../assets/img/specialities/specialities-05.png";
 import useAuthUser from "../../hooks/useAuthUser";
+import { useDispatch, useSelector } from "react-redux";
+import { createToast } from "../../utility/toastAlert";
+import { setMessageEmpty } from "../../features/auth/authSlice";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
   const { user } = useAuthUser();
+  const { error, message } = useSelector((state) => state.auth);
   useEffect(() => {
     new DataTable(".datatable");
   }, []);
+  useEffect(() => {
+    if (error) {
+      createToast(error, "error");
+      dispatch(setMessageEmpty());
+    }
+    if (message) {
+      createToast(message, "success");
+      dispatch(setMessageEmpty());
+    }
+  }, [error, message]);
 
   return (
     <>

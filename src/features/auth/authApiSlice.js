@@ -79,3 +79,23 @@ export const updateAuthProfile = createAsyncThunk(
     }
   }
 );
+export const updateAuthPassword = createAsyncThunk(
+  "profile/updateAuthPassword",
+  async (data) => {
+    try {
+      const res = await axios.put(
+        "http://localhost:5000/api/v1/auth/update-password",
+        {
+          old_password: data.old_password,
+          new_password: data.new_password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      return res.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);

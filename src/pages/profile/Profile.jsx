@@ -3,26 +3,35 @@ import ModalPopup from "../../components/ModalPopup/ModalPopup";
 import useAuthUser from "../../hooks/useAuthUser";
 import { useDispatch, useSelector } from "react-redux";
 import { createToast } from "../../utility/toastAlert";
-import { updateAuthProfile } from "../../features/auth/authApiSlice";
+import {
+  updateAuthPassword,
+  updateAuthProfile,
+} from "../../features/auth/authApiSlice";
 import LetterAvatar from "../../components/Avatar/LetterAvatar";
+import { setMessageEmpty } from "../../features/auth/authSlice";
 
 const Profile = () => {
+  const { error, message } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
-  const { user } = useAuthUser(); // getting data from api
+  const { user } = useAuthUser();
   const [profile, setProfile] = useState({
     name: user.name,
     email: user.email,
     mobile: user.mobile,
-    date_of_birth: user.date_of_birth,
     address: user.address,
     bio: user.bio,
+  });
+  const [authPass, setAuthPass] = useState({
+    old_password: "",
+    new_password: "",
+    confirm_password: "",
   });
   useEffect(() => {
     setProfile({
       name: user.name,
       email: user.email,
       mobile: user.mobile,
-      date_of_birth: user.date_of_birth,
       address: user.address,
       bio: user.bio,
     });
@@ -33,11 +42,35 @@ const Profile = () => {
       [e.target.name]: e.target.value,
     });
   };
+  const handlePasswordData = (e) => {
+    setAuthPass({
+      ...authPass,
+      [e.target.name]: e.target.value,
+    });
+  };
   const handleProfileUpdate = (e) => {
     e.preventDefault();
     dispatch(updateAuthProfile(profile));
-    createToast("Profile Updated Successfully!", "success");
   };
+  const handlePasswordUpdate = (e) => {
+    e.preventDefault();
+    dispatch(
+      updateAuthPassword({
+        old_password: authPass.old_password,
+        new_password: authPass.new_password,
+      })
+    );
+  };
+  useEffect(() => {
+    if (error) {
+      createToast(error, "error");
+      dispatch(setMessageEmpty());
+    }
+    if (message) {
+      createToast(message, "success");
+      dispatch(setMessageEmpty());
+    }
+  }, [error, message]);
 
   return (
     <div className="content container-fluid">
@@ -81,18 +114,7 @@ const Profile = () => {
                 />
               </div>
             </div>
-            <div className="col-12 col-sm-12">
-              <div className="form-group">
-                <label>Date Of Birth</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  name="date_of_birth"
-                  value={profile?.date_of_birth || ""}
-                  onChange={handleProfileData}
-                />
-              </div>
-            </div>
+
             <div className="col-12 col-sm-12">
               <div className="form-group">
                 <label>Adress</label>
@@ -184,21 +206,7 @@ const Profile = () => {
                         </p>
                         <p className="col-sm-10">{profile.name}</p>
                       </div>
-                      <div className="row">
-                        <p className="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">
-                          Date of Birth
-                        </p>
-                        <p className="col-sm-10">
-                          {new Date(profile.date_of_birth).toLocaleDateString(
-                            "en-US",
-                            {
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric",
-                            }
-                          )}
-                        </p>
-                      </div>
+
                       <div className="row">
                         <p className="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">
                           Email ID
@@ -228,18 +236,36 @@ const Profile = () => {
                   <h5 className="card-title">Change Password</h5>
                   <div className="row">
                     <div className="col-md-10 col-lg-6">
-                      <form>
+                      <form onSubmit={handlePasswordUpdate}>
                         <div className="form-group">
                           <label>Old Password</label>
-                          <input type="password" className="form-control" />
+                          <input
+                            type="password"
+                            className="form-control"
+                            name="old_password"
+                            value={authPass.old_password}
+                            onChange={handlePasswordData}
+                          />
                         </div>
                         <div className="form-group">
                           <label>New Password</label>
-                          <input type="password" className="form-control" />
+                          <input
+                            type="password"
+                            className="form-control"
+                            name="new_password"
+                            value={authPass.new_password}
+                            onChange={handlePasswordData}
+                          />
                         </div>
                         <div className="form-group">
                           <label>Confirm Password</label>
-                          <input type="password" className="form-control" />
+                          <input
+                            type="password"
+                            className="form-control"
+                            name="confirm_password"
+                            value={authPass.confirm_password}
+                            onChange={handlePasswordData}
+                          />
                         </div>
                         <button className="btn btn-primary" type="submit">
                           Save Changes
