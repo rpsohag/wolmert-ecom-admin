@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../features/auth/authApiSlice";
 import useAuthUser from "../../hooks/useAuthUser";
+import LetterAvatar from "../Avatar/LetterAvatar";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -186,39 +187,47 @@ const Header = () => {
               data-toggle="dropdown"
             >
               <span className="user-img">
-                <img
-                  className="rounded-circle"
-                  src={
-                    user?.photo
-                      ? user?.photo
-                      : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
-                  }
-                  width="31"
-                  alt={user?.name}
-                />
+                {user?.photo ? (
+                  <img
+                    src={user?.photo}
+                    alt={user?.name}
+                    className="avatar-img rounded-circle"
+                  />
+                ) : (
+                  <LetterAvatar
+                    name={user?.name || ""}
+                    size={35}
+                    alt={user?.name}
+                    className="avatar-img rounded-circle"
+                  />
+                )}
               </span>
             </a>
             <div className="dropdown-menu">
               <div className="user-header">
                 <div className="avatar avatar-sm">
-                  <img
-                    src={
-                      user?.photo
-                        ? user?.photo
-                        : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
-                    }
-                    alt={user?.name}
-                    className="avatar-img rounded-circle"
-                  />
+                  {user?.photo ? (
+                    <img
+                      src={user?.photo}
+                      alt={user?.name}
+                      className="avatar-img rounded-circle"
+                    />
+                  ) : (
+                    <LetterAvatar
+                      name={user?.name || ""}
+                      size={45}
+                      className="avatar-img rounded-circle"
+                    />
+                  )}
                 </div>
                 <div className="user-text">
                   <h6>{user?.name}</h6>
                   <p className="text-muted mb-0">{user?.role}</p>
                 </div>
               </div>
-              <a className="dropdown-item" href="profile.html">
+              <Link className="dropdown-item" to="/profile">
                 My Profile
-              </a>
+              </Link>
               <a className="dropdown-item" href="settings.html">
                 Settings
               </a>

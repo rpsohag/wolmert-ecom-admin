@@ -60,3 +60,22 @@ export const getLoggedInUser = createAsyncThunk(
     }
   }
 );
+
+export const updateAuthProfile = createAsyncThunk(
+  "profile/updateAuthProfile",
+  async (data) => {
+    try {
+      const res = await axios.put(
+        "http://localhost:5000/api/v1/auth/update-profile",
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error.response.data.message);
+    }
+  }
+);

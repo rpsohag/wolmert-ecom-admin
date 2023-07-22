@@ -5,16 +5,26 @@ import Specialities2 from "./../../assets/img/specialities/specialities-02.png";
 import Specialities3 from "./../../assets/img/specialities/specialities-03.png";
 import Specialities4 from "./../../assets/img/specialities/specialities-04.png";
 import Specialities5 from "./../../assets/img/specialities/specialities-05.png";
-import PageHeader from "../../components/PageHeader/PageHeader";
+import useAuthUser from "../../hooks/useAuthUser";
 
 const Dashboard = () => {
+  const { user } = useAuthUser();
   useEffect(() => {
     new DataTable(".datatable");
   }, []);
 
   return (
     <>
-      <PageHeader title="Dashboard" />
+      <div className="page-header">
+        <div className="row">
+          <div className="col-sm-12">
+            <h3 className="page-title">Welcome {user?.name}!</h3>
+            <ul className="breadcrumb">
+              <li className="breadcrumb-item active">Dashboard</li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <div className="row">
         <div className="col-xl-3 col-sm-6 col-12">
           <div className="card">
