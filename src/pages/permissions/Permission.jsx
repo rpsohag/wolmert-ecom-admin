@@ -3,14 +3,15 @@ import ModalPopup from "../../components/ModalPopup/ModalPopup";
 import { useEffect, useState } from "react";
 import PageHeader from "../../components/PageHeader/PageHeader";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { createToast } from "../../utility/toastAlert";
+import swal from "sweetalert";
 import {
   getAllPermissionData,
   setMessageEmpty,
 } from "../../features/user/userSlice";
 import {
   createPermission,
+  deletePermission,
   getAllPermission,
 } from "../../features/user/userApiSlice";
 
@@ -37,6 +38,19 @@ const Permission = () => {
         name: "",
       });
     }
+  };
+  const handlePermissionDelete = (id) => {
+    swal({
+      title: "Delete Permission",
+      text: "Are you sure ?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        dispatch(deletePermission(id));
+      }
+    });
   };
 
   useEffect(() => {
@@ -141,6 +155,9 @@ const Permission = () => {
                                   data-toggle="modal"
                                   href="#delete_modal"
                                   className="btn btn-sm bg-danger-light"
+                                  onClick={() =>
+                                    handlePermissionDelete(item._id)
+                                  }
                                 >
                                   <i className="fe fe-trash"></i> Delete
                                 </a>
