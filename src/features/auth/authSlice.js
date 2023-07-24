@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createUser,
+  forgetPassword,
   getLoggedInUser,
   loginUser,
   logoutUser,
+  resetPassword,
   updateAuthPassword,
   updateAuthProfile,
 } from "./authApiSlice";
@@ -70,6 +72,18 @@ const authSlice = createSlice({
         state.message = action.payload.message;
         state.user = action.payload.user;
         localStorage.setItem("user", JSON.stringify(action.payload.user));
+      })
+      .addCase(forgetPassword.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(forgetPassword.fulfilled, (state, action) => {
+        state.message = action.payload.message;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.message = action.payload.message;
       });
   },
 });

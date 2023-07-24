@@ -99,3 +99,43 @@ export const updateAuthPassword = createAsyncThunk(
     }
   }
 );
+
+export const forgetPassword = createAsyncThunk(
+  "profile/forgetPassword",
+  async ({ email }) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/v1/auth/forget-password",
+        {
+          email: email,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      return res.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "profile/resetPassword",
+  async ({ password, token }) => {
+    try {
+      const res = await axios.put(
+        `http://localhost:5000/api/v1/auth/reset-password/${token}`,
+        {
+          password: password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      return res.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);

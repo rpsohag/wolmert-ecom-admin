@@ -4,6 +4,7 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Forgot from "../pages/auth/Forgot";
 import PublicGuard from "./publicGuard";
+import Reset from "../pages/auth/Reset";
 
 const PublicRouter = [
   {
@@ -20,6 +21,10 @@ const PublicRouter = [
       {
         path: "/forgot",
         element: <Forgot />,
+      },
+      {
+        path: "/reset/:token",
+        element: <Reset />,
       },
     ],
   },

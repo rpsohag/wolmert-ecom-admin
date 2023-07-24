@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import logoSmall from "./../../assets/img/logo-small.png";
 import logo from "./../../assets/img/logo.png";
-import avatar1 from "./../../assets/img/profiles/avatar-01.jpg";
 import doc from "./../../assets/img/doctors/doctor-thumb-01.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -13,12 +12,25 @@ import LetterAvatar from "../Avatar/LetterAvatar";
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isClassToggled, setClassToggled] = useState(false);
   const { user } = useAuthUser();
 
   const handleUserLogout = (e) => {
     e.preventDefault();
     dispatch(logoutUser());
     navigate("/login");
+  };
+
+  useEffect(() => {
+    if (isClassToggled) {
+      document.body.classList.add("mini-sidebar");
+    } else {
+      document.body.classList.remove("mini-sidebar");
+    }
+  }, [isClassToggled]);
+
+  const handleToggleClass = () => {
+    setClassToggled((prevState) => !prevState);
   };
   return (
     <>
@@ -32,9 +44,13 @@ const Header = () => {
           </Link>
         </div>
 
-        <a href="" id="toggle_btn">
+        <button
+          id="toggle_btn"
+          className="border-0 bg-white"
+          onClick={handleToggleClass}
+        >
           <i className="fe fe-text-align-left"></i>
-        </a>
+        </button>
 
         <div className="top-nav-search">
           <form>

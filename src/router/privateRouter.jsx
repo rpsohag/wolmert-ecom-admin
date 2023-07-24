@@ -2,7 +2,9 @@
 
 import PageLayout from "../components/PageLayout/PageLayout";
 import Dashboard from "../pages/dashboard/Dashboard";
+import Permission from "../pages/permissions/Permission";
 import Profile from "../pages/profile/Profile";
+import Role from "../pages/roles/Role";
 import User from "../pages/user/User";
 import PrivateGuard from "./privateGuard";
 
@@ -24,6 +26,14 @@ const PrivateRouter = [
           {
             path: "/profile",
             element: <Profile />,
+          },
+          {
+            path: "/roles",
+            element: <Role />,
+          },
+          {
+            path: "/permissions",
+            element: <Permission />,
           },
         ],
       },
