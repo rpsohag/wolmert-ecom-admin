@@ -13,7 +13,9 @@ import {
   createPermission,
   deletePermission,
   getAllPermission,
+  updatePermissionStatus,
 } from "../../features/user/userApiSlice";
+import { timeAgo } from "../../utility/timeAgo";
 
 const Permission = () => {
   const dispatch = useDispatch();
@@ -38,6 +40,10 @@ const Permission = () => {
         name: "",
       });
     }
+  };
+  const handleStatusUpdate = (id, status) => {
+    dispatch(updatePermissionStatus({ id, status }));
+    console.log(id);
   };
   const handlePermissionDelete = (id) => {
     swal({
@@ -107,36 +113,41 @@ const Permission = () => {
           <div className="card card-table">
             <div className="card-body">
               <div className="table-responsive">
-                <table className="datatable table table-hover table-center mb-0">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Slug</th>
-                      <th>Created At</th>
-                      <th>Status</th>
-                      <th className="text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {permissions &&
-                      [...permissions].reverse().map((item, index) => {
+                {permissions && (
+                  <table className="datatable table table-hover table-center mb-0">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Slug</th>
+                        <th>Created At</th>
+                        <th>Status</th>
+                        <th className="text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[...permissions].reverse().map((item, index) => {
                         return (
                           <tr key={index}>
                             <td style={{ width: "50px" }}>{index + 1}</td>
                             <td>{item.name}</td>
                             <td>{item.slug}</td>
-                            <td>3 min ago</td>
+                            <td>{timeAgo(item.createdAt)}</td>
                             <td>
                               <div className="status-toggle">
                                 <input
                                   type="checkbox"
-                                  id="status_1"
+                                  id={`status_${item._id}`}
                                   className="check"
+                                  checked={item.status ? true : false}
+                                  readOnly
                                 />
                                 <label
-                                  htmlFor="status_1"
+                                  htmlFor={`status_${item._id}`}
                                   className="checktoggle"
+                                  onClick={() =>
+                                    handleStatusUpdate(item._id, item.status)
+                                  }
                                 >
                                   checkbox
                                 </label>
@@ -166,8 +177,9 @@ const Permission = () => {
                           </tr>
                         );
                       })}
-                  </tbody>
-                </table>
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
           </div>
