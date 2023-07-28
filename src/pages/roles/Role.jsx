@@ -9,7 +9,11 @@ import {
   setMessageEmpty,
 } from "../../features/user/userSlice";
 import { createToast } from "../../utility/toastAlert";
-import { createRole } from "../../features/user/userApiSlice";
+import {
+  createRole,
+  deleteRole,
+  updateRoleStatus,
+} from "../../features/user/userApiSlice";
 import { timeAgo } from "../../utility/timeAgo";
 
 const Role = () => {
@@ -42,7 +46,23 @@ const Role = () => {
     resetForm();
     setSelected([]);
   };
+  const handleStatusUpdate = (id, status) => {
+    dispatch(updateRoleStatus({ id, status }));
+  };
 
+  const handleRoleDelete = (id) => {
+    swal({
+      title: "Delete Permission",
+      text: "Are you sure ?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        dispatch(deleteRole(id));
+      }
+    });
+  };
   useEffect(() => {
     new DataTable(".datatable");
   }, []);
@@ -139,14 +159,17 @@ const Role = () => {
                               <div className="status-toggle">
                                 <input
                                   type="checkbox"
-                                  id="{`status_${item._id}`}"
+                                  id={`status_${item._id}`}
                                   className="check"
-                                  // checked={item.status ? true : false}
+                                  checked={item.status ? true : false}
                                   readOnly
                                 />
                                 <label
-                                  htmlFor="{`status_${item._id}`}"
+                                  htmlFor={`status_${item._id}`}
                                   className="checktoggle"
+                                  onClick={() =>
+                                    handleStatusUpdate(item._id, item.status)
+                                  }
                                 >
                                   checkbox
                                 </label>
@@ -165,6 +188,7 @@ const Role = () => {
                                   data-toggle="modal"
                                   href="#delete_modal"
                                   className="btn btn-sm bg-danger-light"
+                                  onClick={() => handleRoleDelete(item._id)}
                                 >
                                   <i className="fe fe-trash"></i> Delete
                                 </a>

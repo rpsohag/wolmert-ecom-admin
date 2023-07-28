@@ -3,9 +3,11 @@ import {
   createPermission,
   createRole,
   deletePermission,
+  deleteRole,
   getAllPermission,
   getAllRoles,
   updatePermissionStatus,
+  updateRoleStatus,
 } from "./userApiSlice";
 
 // create user slice
@@ -49,6 +51,15 @@ const userSlice = createSlice({
           (data) => data._id != action.payload.permission._id
         );
       })
+      .addCase(deleteRole.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(deleteRole.fulfilled, (state, action) => {
+        state.message = action.payload.message;
+        state.role = state.role.filter(
+          (data) => data._id != action.payload.role._id
+        );
+      })
       .addCase(updatePermissionStatus.rejected, (state, action) => {
         state.error = action.error.message;
       })
@@ -59,6 +70,15 @@ const userSlice = createSlice({
             (data) => data._id === action.payload.permission._id
           )
         ] = action.payload.permission;
+      })
+      .addCase(updateRoleStatus.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(updateRoleStatus.fulfilled, (state, action) => {
+        state.message = action.payload.message;
+        state.role[
+          state.role.findIndex((data) => data._id === action.payload.role._id)
+        ] = action.payload.role;
       })
       .addCase(getAllRoles.rejected, (state, action) => {
         state.error = action.error.message;

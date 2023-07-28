@@ -81,6 +81,24 @@ export const updatePermissionStatus = createAsyncThunk(
     }
   }
 );
+
+export const updateRoleStatus = createAsyncThunk(
+  "user/updateRoleStatus",
+  async ({ id, status }) => {
+    try {
+      const response = await axios.patch(
+        `http://localhost:5000/api/v1/auth/roles/status/${id}`,
+        { status },
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);
 export const deletePermission = createAsyncThunk(
   "user/deletePermission",
   async (id) => {
@@ -97,3 +115,16 @@ export const deletePermission = createAsyncThunk(
     }
   }
 );
+export const deleteRole = createAsyncThunk("user/deleteRole", async (id) => {
+  try {
+    const response = await axios.delete(
+      `http://localhost:5000/api/v1/auth/roles/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+});
