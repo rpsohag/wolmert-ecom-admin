@@ -60,7 +60,7 @@ const Permission = () => {
   };
 
   useEffect(() => {
-    if (error) {
+    if (error && permissions) {
       createToast(error, "error");
       dispatch(setMessageEmpty());
     }
@@ -73,10 +73,6 @@ const Permission = () => {
   useEffect(() => {
     new DataTable(".datatable");
   }, []);
-
-  useEffect(() => {
-    dispatch(getAllPermission());
-  }, [dispatch]);
 
   return (
     <>

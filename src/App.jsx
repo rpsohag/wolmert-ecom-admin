@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getLoggedInUser } from "./features/auth/authApiSlice";
+import { getAllPermission, getAllRoles } from "./features/user/userApiSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -13,6 +14,10 @@ function App() {
     if (localStorage.getItem("user")) {
       dispatch(getLoggedInUser());
     }
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(getAllPermission());
+    dispatch(getAllRoles());
   }, [dispatch]);
   return (
     <>
