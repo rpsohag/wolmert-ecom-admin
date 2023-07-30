@@ -49,6 +49,20 @@ export const createRole = createAsyncThunk("user/createRole", async (data) => {
     throw new Error(error.response.data.message);
   }
 });
+export const updateRole = createAsyncThunk("user/updateRole", async (data) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:5000/api/v1/auth/roles/${data.id}`,
+      data,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+});
 
 export const getAllRoles = createAsyncThunk("user/getAllRoles", async () => {
   try {

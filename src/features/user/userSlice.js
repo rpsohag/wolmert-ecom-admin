@@ -7,6 +7,7 @@ import {
   getAllPermission,
   getAllRoles,
   updatePermissionStatus,
+  updateRole,
   updateRoleStatus,
 } from "./userApiSlice";
 
@@ -95,6 +96,15 @@ const userSlice = createSlice({
         state.role = state.role
           ? [...state.role, action.payload]
           : [action.payload];
+      })
+      .addCase(updateRole.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(updateRole.fulfilled, (state, action) => {
+        state.message = action.payload.message;
+        state.role[
+          state.role.findIndex((data) => data._id == action.payload.role._id)
+        ] = action.payload.role;
       });
   },
 });
