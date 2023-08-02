@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   createPermission,
   createRole,
+  createUser,
   deletePermission,
   deleteRole,
   getAllPermission,
   getAllRoles,
+  getAllUser,
   updatePermissionStatus,
   updateRole,
   updateRoleStatus,
@@ -88,6 +90,10 @@ const userSlice = createSlice({
         state.message = action.payload.message;
         state.role = action.payload;
       })
+      .addCase(getAllUser.fulfilled, (state, action) => {
+        state.message = action.payload.message;
+        state.user = action.payload;
+      })
       .addCase(createRole.rejected, (state, action) => {
         state.error = action.error.message;
       })
@@ -96,6 +102,15 @@ const userSlice = createSlice({
         state.role = state.role
           ? [...state.role, action.payload]
           : [action.payload];
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        state.message = action.payload.message;
+        state.user = state.user
+          ? [...state.user, action.payload.user]
+          : [action.payload.user];
       })
       .addCase(updateRole.rejected, (state, action) => {
         state.error = action.error.message;

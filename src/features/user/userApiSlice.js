@@ -17,6 +17,16 @@ export const getAllPermission = createAsyncThunk(
     }
   }
 );
+export const getAllUser = createAsyncThunk("user/getAllUser", async () => {
+  try {
+    const response = await axios.get("http://localhost:5000/api/v1/user", {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+});
 
 export const createPermission = createAsyncThunk(
   "user/createPermission",
@@ -45,6 +55,20 @@ export const createRole = createAsyncThunk("user/createRole", async (data) => {
       }
     );
     return response.data.role;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+});
+export const createUser = createAsyncThunk("user/createUser", async (data) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/v1/user/create",
+      data,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
   }

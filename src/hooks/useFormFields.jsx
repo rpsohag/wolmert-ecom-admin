@@ -11,7 +11,7 @@ const useFormFields = (initState) => {
   const resetForm = () => {
     setInput(initState);
   };
-  return { input, handleInputChange, resetForm };
+  return { input, handleInputChange, resetForm, setInput };
 };
 
 export default useFormFields;
