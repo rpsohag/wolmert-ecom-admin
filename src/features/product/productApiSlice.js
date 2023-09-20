@@ -33,3 +33,21 @@ export const createBrand = createAsyncThunk(
     }
   }
 );
+
+export const deleteBrand = createAsyncThunk(
+  "product/deleteBrand",
+  async (id) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/api/v1/brand/brands/${id}`,
+
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);

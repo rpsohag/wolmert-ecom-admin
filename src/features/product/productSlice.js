@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createBrand, getAllBrand } from "./productApiSlice";
+import { createBrand, deleteBrand, getAllBrand } from "./productApiSlice";
 
 // create user slice
 const productSlice = createSlice({
@@ -41,6 +41,20 @@ const productSlice = createSlice({
       .addCase(createBrand.fulfilled, (state, action) => {
         state.brand = state.brand ?? [];
         state.brand.push(action.payload.brand);
+        state.message = action.payload.message;
+        state.loader = false;
+      })
+      .addCase(deleteBrand.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(deleteBrand.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loader = false;
+      })
+      .addCase(deleteBrand.fulfilled, (state, action) => {
+        state.brand = state.brand.filter(
+          (item) => item._id !== action.payload.brand._id
+        );
         state.message = action.payload.message;
         state.loader = false;
       });

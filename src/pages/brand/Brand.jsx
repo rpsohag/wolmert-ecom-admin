@@ -8,72 +8,11 @@ import { createToast } from "../../utility/toastAlert";
 
 import DataTable from "react-data-table-component";
 
-import { createBrand } from "../../features/product/productApiSlice";
+import {
+  createBrand,
+  deleteBrand,
+} from "../../features/product/productApiSlice";
 import { timeAgo } from "../../utility/timeAgo";
-
-const columns = [
-  {
-    name: "Logo",
-    selector: (row) => (
-      <img
-        style={{ width: "50px", margin: "10px", objectFit: "cover" }}
-        src={row.logo}
-      />
-    ),
-  },
-  {
-    name: "Title",
-    selector: (row) => row.name,
-    sortable: true,
-  },
-  {
-    name: "Slug",
-    selector: (row) => row.slug,
-  },
-  {
-    name: "Created At",
-    selector: (row) => timeAgo(row.createdAt),
-  },
-  {
-    name: "Status",
-    selector: (row) => (
-      <>
-        <div className="status-toggle">
-          <input type="checkbox" id="status_1" className="check" />
-          <label htmlFor="status_1" className="checktoggle">
-            checkbox
-          </label>
-        </div>
-      </>
-    ),
-  },
-  {
-    name: "Action",
-    selector: (row) => (
-      <>
-        <div className="actions">
-          <button
-            className="btn btn-sm bg-success-light"
-            data-toggle="modal"
-            data-target="#role_edit"
-            href="#edit_specialities_details"
-            onClick={() => handleRoleEdit(item._id)}
-          >
-            <i className="fe fe-pencil"></i> Edit
-          </button>
-          <a
-            data-toggle="modal"
-            href="#delete_modal"
-            className="btn btn-sm bg-danger-light"
-            onClick={() => handleRoleDelete(item._id)}
-          >
-            <i className="fe fe-trash"></i> Delete
-          </a>
-        </div>
-      </>
-    ),
-  },
-];
 
 const Brand = () => {
   const dispatch = useDispatch();
@@ -99,10 +38,25 @@ const Brand = () => {
     form_data.append("name", input.name);
     form_data.append("logo", logo);
     dispatch(createBrand(form_data));
+    resetForm();
   };
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
+  };
+
+  const handleBrandDelete = (id) => {
+    swal({
+      title: "Delete Brand",
+      text: "Are you sure ?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        dispatch(deleteBrand(id));
+      }
+    });
   };
 
   useEffect(() => {
@@ -115,6 +69,71 @@ const Brand = () => {
       dispatch(setMessageEmpty());
     }
   }, [error, message, dispatch]);
+
+  const columns = [
+    {
+      name: "Logo",
+      selector: (row) => (
+        <img
+          style={{ width: "50px", margin: "10px", objectFit: "cover" }}
+          src={row.logo}
+        />
+      ),
+    },
+    {
+      name: "Title",
+      selector: (row) => row.name,
+      sortable: true,
+    },
+    {
+      name: "Slug",
+      selector: (row) => row.slug,
+    },
+    {
+      name: "Created At",
+      selector: (row) => timeAgo(row.createdAt),
+    },
+    {
+      name: "Status",
+      selector: (row) => (
+        <>
+          <div className="status-toggle">
+            <input type="checkbox" id="status_1" className="check" />
+            <label htmlFor="status_1" className="checktoggle">
+              checkbox
+            </label>
+          </div>
+        </>
+      ),
+    },
+    {
+      name: "Action",
+      selector: (row) => (
+        <>
+          <div className="actions">
+            <button
+              className="btn btn-sm bg-success-light"
+              data-toggle="modal"
+              data-target="#role_edit"
+              href="#edit_specialities_details"
+              onClick={() => handleRoleEdit(item._id)}
+            >
+              <i className="fe fe-pencil"></i> Edit
+            </button>
+            <button
+              data-toggle="modal"
+              href="#delete_modal"
+              className="btn btn-sm bg-danger-light"
+              onClick={() => handleBrandDelete(row._id)}
+            >
+              <i className="fe fe-trash"></i> Delete
+            </button>
+          </div>
+        </>
+      ),
+    },
+  ];
+
   return (
     <>
       <PageHeader title="Brand" />
