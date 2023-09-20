@@ -11,6 +11,7 @@ import DataTable from "react-data-table-component";
 import {
   createBrand,
   deleteBrand,
+  updateBrandStatus,
 } from "../../features/product/productApiSlice";
 import { timeAgo } from "../../utility/timeAgo";
 
@@ -43,6 +44,10 @@ const Brand = () => {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
+  };
+
+  const handleStatusUpdate = (id, status) => {
+    dispatch(updateBrandStatus({ id, status }));
   };
 
   const handleBrandDelete = (id) => {
@@ -98,8 +103,18 @@ const Brand = () => {
       selector: (row) => (
         <>
           <div className="status-toggle">
-            <input type="checkbox" id="status_1" className="check" />
-            <label htmlFor="status_1" className="checktoggle">
+            <input
+              type="checkbox"
+              id={`status_${row._id}`}
+              checked={row.status}
+              className="check"
+              readOnly
+            />
+            <label
+              htmlFor={`status_${row._id}`}
+              className="checktoggle"
+              onClick={() => handleStatusUpdate(row._id, row.status)}
+            >
               checkbox
             </label>
           </div>

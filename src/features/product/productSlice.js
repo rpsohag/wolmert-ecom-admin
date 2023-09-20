@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createBrand, deleteBrand, getAllBrand } from "./productApiSlice";
+import {
+  createBrand,
+  deleteBrand,
+  getAllBrand,
+  updateBrandStatus,
+} from "./productApiSlice";
 
 // create user slice
 const productSlice = createSlice({
@@ -55,6 +60,20 @@ const productSlice = createSlice({
         state.brand = state.brand.filter(
           (item) => item._id !== action.payload.brand._id
         );
+        state.message = action.payload.message;
+        state.loader = false;
+      })
+      .addCase(updateBrandStatus.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(updateBrandStatus.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loader = false;
+      })
+      .addCase(updateBrandStatus.fulfilled, (state, action) => {
+        state.brand[
+          state.brand.findIndex((data) => data._id === action.payload.brand._id)
+        ] = action.payload.brand;
         state.message = action.payload.message;
         state.loader = false;
       });

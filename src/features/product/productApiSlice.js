@@ -34,6 +34,24 @@ export const createBrand = createAsyncThunk(
   }
 );
 
+export const updateBrandStatus = createAsyncThunk(
+  "product/updateBrandStatus",
+  async ({ id, status }) => {
+    try {
+      const response = await axios.patch(
+        `http://localhost:5000/api/v1/brand/brands/status/${id}`,
+        { status: status },
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);
+
 export const deleteBrand = createAsyncThunk(
   "product/deleteBrand",
   async (id) => {
