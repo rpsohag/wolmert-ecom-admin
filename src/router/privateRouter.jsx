@@ -1,6 +1,7 @@
 // create public router
 
 import PageLayout from "../components/PageLayout/PageLayout";
+import Brand from "../pages/brand/Brand";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Permission from "../pages/permissions/Permission";
 import Profile from "../pages/profile/Profile";
@@ -34,6 +35,10 @@ const PrivateRouter = [
           {
             path: "/permissions",
             element: <Permission />,
+          },
+          {
+            path: "/brand",
+            element: <Brand />,
           },
         ],
       },
