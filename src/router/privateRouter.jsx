@@ -6,6 +6,7 @@ import Dashboard from "../pages/dashboard/Dashboard";
 import Permission from "../pages/permissions/Permission";
 import Profile from "../pages/profile/Profile";
 import Role from "../pages/roles/Role";
+import Tag from "../pages/tag/Tag";
 import User from "../pages/user/User";
 import PrivateGuard from "./privateGuard";
 
@@ -39,6 +40,10 @@ const PrivateRouter = [
           {
             path: "/brand",
             element: <Brand />,
+          },
+          {
+            path: "/tag",
+            element: <Tag />,
           },
         ],
       },

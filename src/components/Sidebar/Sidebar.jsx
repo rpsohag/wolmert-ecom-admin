@@ -46,6 +46,11 @@ const Sidebar = () => {
                   <i className="fe fe-feather"></i> <span>Brand</span>
                 </Link>
               </li>
+              <li className={`${location.pathname === "/tag" ? "active" : ""}`}>
+                <Link to="/tag">
+                  <i className="fe fe-feather"></i> <span>Tag</span>
+                </Link>
+              </li>
               <li
                 className={`${location.pathname === "/users" ? "active" : ""}`}
               >

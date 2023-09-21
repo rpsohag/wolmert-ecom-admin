@@ -5,57 +5,33 @@ import useFormFields from "../../hooks/useFormFields";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessageEmpty } from "../../features/user/userSlice";
 import { createToast } from "../../utility/toastAlert";
-
 import DataTable from "react-data-table-component";
 
 import {
-  createBrand,
-  deleteBrand,
-  updateBrand,
-  updateBrandStatus,
+  createTag,
+  deleteTag,
+  updateTag,
+  updateTagStatus,
 } from "../../features/product/productApiSlice";
 import { timeAgo } from "../../utility/timeAgo";
 
-const Brand = () => {
+const Tag = () => {
   const dispatch = useDispatch();
-  const { error, message, brand, loader } = useSelector(
-    (state) => state.product
-  );
-  const [logo, setLogo] = useState(null);
-  const [logoprev, setLogoprev] = useState(null);
-  const [logoEditPrev, setEditLogoprev] = useState(null);
+  const { error, message, tag, loader } = useSelector((state) => state.product);
   const [search, setSearch] = useState("");
-  const [filteredBrand, setFilteredBrand] = useState([]);
+  const [filteredTag, setFilteredTag] = useState([]);
 
   const { input, handleInputChange, resetForm } = useFormFields({
     name: "",
   });
-  const [brandEdit, setBrandEdit] = useState({
+  const [tagEdit, setTagEdit] = useState({
     _id: "",
     name: "",
-    logo: "",
   });
 
-  const handleLogoPreview = (e) => {
-    setLogoprev(URL.createObjectURL(e.target.files[0]));
-    setLogo(e.target.files[0]);
-  };
-
-  const handleEditLogoPreview = (e) => {
-    setEditLogoprev(URL.createObjectURL(e.target.files[0]));
-    setBrandEdit((prevState) => ({
-      ...prevState,
-      logo: e.target.files[0],
-    }));
-  };
-
-  const handleBrandCreate = (e) => {
+  const handleTagCreate = (e) => {
     e.preventDefault();
-    const form_data = new FormData();
-    form_data.append("name", input.name);
-    form_data.append("logo", logo);
-
-    dispatch(createBrand(form_data));
+    dispatch(createTag(input));
   };
 
   const handleSearch = (e) => {
@@ -63,42 +39,36 @@ const Brand = () => {
   };
 
   const handleStatusUpdate = (id, status) => {
-    dispatch(updateBrandStatus({ id, status }));
+    dispatch(updateTagStatus({ id, status }));
   };
 
-  const handleBrandEdit = (id) => {
-    const editData = brand.find((data) => data._id === id);
-    setBrandEdit(editData);
-    setEditLogoprev(editData.logo);
+  const handleTagEdit = (id) => {
+    const editData = tag.find((data) => data._id === id);
+    setTagEdit(editData);
   };
 
   const handleEditInputChange = (e) => {
-    setBrandEdit((prevState) => ({
+    setTagEdit((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const handleBrandUpdate = (e) => {
+  const handleTagUpdate = (e) => {
     e.preventDefault();
-    const form_data = new FormData();
-    form_data.append("id", brandEdit._id);
-    form_data.append("name", brandEdit.name);
-    form_data.append("logo", brandEdit.logo);
-
-    dispatch(updateBrand({ id: brandEdit._id, data: form_data }));
+    dispatch(updateTag({ id: tagEdit._id, data: tagEdit }));
   };
 
-  const handleBrandDelete = (id) => {
+  const handleTagDelete = (id) => {
     swal({
-      title: "Delete Brand",
+      title: "Delete Tag",
       text: "Are you sure ?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        dispatch(deleteBrand(id));
+        dispatch(deleteTag(id));
       }
     });
   };
@@ -112,29 +82,19 @@ const Brand = () => {
       createToast(message, "success");
       dispatch(setMessageEmpty());
       resetForm();
-      setLogoprev(null);
     }
   }, [error, message, dispatch]);
 
   useEffect(() => {
-    if (brand) {
-      const result = brand.filter((item) => {
+    if (tag) {
+      const result = tag.filter((item) => {
         return item.name.toLowerCase().includes(search.toLowerCase());
       });
-      setFilteredBrand(result);
+      setFilteredTag(result);
     }
-  }, [search, brand]);
+  }, [search, tag]);
 
   const columns = [
-    {
-      name: "Logo",
-      selector: (row) => (
-        <img
-          style={{ width: "50px", margin: "10px", objectFit: "cover" }}
-          src={row.logo}
-        />
-      ),
-    },
     {
       name: "Title",
       selector: (row) => row.name,
@@ -179,9 +139,9 @@ const Brand = () => {
             <button
               className="btn btn-sm bg-success-light"
               data-toggle="modal"
-              data-target="#brand_edit"
+              data-target="#tag_edit"
               href="#edit_specialities_details"
-              onClick={() => handleBrandEdit(row._id)}
+              onClick={() => handleTagEdit(row._id)}
             >
               <i className="fe fe-pencil"></i> Edit
             </button>
@@ -189,7 +149,7 @@ const Brand = () => {
               data-toggle="modal"
               href="#delete_modal"
               className="btn btn-sm bg-danger-light"
-              onClick={() => handleBrandDelete(row._id)}
+              onClick={() => handleTagDelete(row._id)}
             >
               <i className="fe fe-trash"></i> Delete
             </button>
@@ -201,11 +161,11 @@ const Brand = () => {
 
   return (
     <>
-      <PageHeader title="Brand" />
-      <ModalPopup target="BrandModalPopup" title="Add new brand">
-        <form onSubmit={handleBrandCreate}>
+      <PageHeader title="Tag" />
+      <ModalPopup target="TagModalPopup" title="Add new tag">
+        <form onSubmit={handleTagCreate}>
           <div className="my-3">
-            <label htmlFor="name">Brand Name</label>
+            <label htmlFor="name">Tag Name</label>
             <input
               type="text"
               className="form-control"
@@ -215,57 +175,31 @@ const Brand = () => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="my">
-            <img src={logoprev} className="w-100" alt="" />
-          </div>
-          <div className="my-3">
-            <label htmlFor="name">Brand Logo</label>
-            <input
-              type="file"
-              className="form-control"
-              id="logo"
-              name="logo"
-              onChange={(e) => handleLogoPreview(e)}
-            />
-          </div>
 
           <div className="my-3">
             <button type="submit" className="btn btn-primary float-right">
-              {loader ? "Creating ....." : "Create Brand"}
+              {loader ? "Creating ....." : "Create Tag"}
             </button>
           </div>
         </form>
       </ModalPopup>
-      <ModalPopup target="brand_edit" title="Update Brand">
-        <form onSubmit={handleBrandUpdate}>
+      <ModalPopup target="tag_edit" title="Update Tag">
+        <form onSubmit={handleTagUpdate}>
           <div className="my-3">
-            <label htmlFor="name">Brand Name</label>
+            <label htmlFor="name">Tag Name</label>
             <input
               type="text"
               className="form-control"
               id="name"
               name="name"
-              value={brandEdit.name}
+              value={tagEdit.name}
               onChange={handleEditInputChange}
-            />
-          </div>
-          <div className="my">
-            <img src={logoEditPrev} className="w-100" alt="" />
-          </div>
-          <div className="my-3">
-            <label htmlFor="name">Brand Logo</label>
-            <input
-              type="file"
-              className="form-control"
-              id="logo"
-              name="logo"
-              onChange={(e) => handleEditLogoPreview(e)}
             />
           </div>
 
           <div className="my-3">
             <button type="submit" className="btn btn-primary float-right">
-              {loader ? "Updating ....." : "Update Brand"}
+              {loader ? "Updating ....." : "Update Tag"}
             </button>
           </div>
         </form>
@@ -275,18 +209,18 @@ const Brand = () => {
         <div className="col-md-12">
           <button
             className="btn btn-primary mb-3"
-            data-target="#BrandModalPopup"
+            data-target="#TagModalPopup"
             data-toggle="modal"
           >
-            Add new brand
+            Add new tag
           </button>
           <br />
           <br />
           <DataTable
-            title="Brands"
+            title="Tags"
             className="shadow-sm"
             columns={columns}
-            data={filteredBrand ? filteredBrand : []}
+            data={filteredTag ? filteredTag : []}
             highlightOnHover
             pagination
             subHeader
@@ -306,4 +240,4 @@ const Brand = () => {
   );
 };
 
-export default Brand;
+export default Tag;

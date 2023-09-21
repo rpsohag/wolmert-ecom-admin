@@ -1,10 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createBrand,
+  createTag,
   deleteBrand,
+  deleteTag,
   getAllBrand,
+  getAllTags,
   updateBrand,
   updateBrandStatus,
+  updateTag,
+  updateTagStatus,
 } from "./productApiSlice";
 
 // create user slice
@@ -89,6 +94,72 @@ const productSlice = createSlice({
         state.brand[
           state.brand.findIndex((data) => data._id == action.payload.brand._id)
         ] = action.payload.brand;
+        state.message = action.payload.message;
+        state.loader = false;
+      })
+      .addCase(getAllTags.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(getAllTags.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loader = false;
+      })
+      .addCase(getAllTags.fulfilled, (state, action) => {
+        state.tag = action.payload.tags;
+        state.loader = false;
+      })
+      .addCase(createTag.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(createTag.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loader = false;
+      })
+      .addCase(createTag.fulfilled, (state, action) => {
+        state.tag = state.tag ?? [];
+        state.tag.push(action.payload.tag);
+        state.message = action.payload.message;
+        state.loader = false;
+      })
+      .addCase(deleteTag.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(deleteTag.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loader = false;
+      })
+      .addCase(deleteTag.fulfilled, (state, action) => {
+        state.tag = state.tag.filter(
+          (item) => item._id !== action.payload.tag._id
+        );
+        state.message = action.payload.message;
+        state.loader = false;
+      })
+      .addCase(updateTagStatus.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(updateTagStatus.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loader = false;
+      })
+      .addCase(updateTagStatus.fulfilled, (state, action) => {
+        state.tag[
+          state.tag.findIndex((data) => data._id === action.payload.tag._id)
+        ] = action.payload.tag;
+        state.message = action.payload.message;
+        state.loader = false;
+      })
+      .addCase(updateTag.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(updateTag.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loader = false;
+      })
+      .addCase(updateTag.fulfilled, (state, action) => {
+        state.tag[
+          state.tag.findIndex((data) => data._id == action.payload.tag._id)
+        ] = action.payload.tag;
         state.message = action.payload.message;
         state.loader = false;
       });
