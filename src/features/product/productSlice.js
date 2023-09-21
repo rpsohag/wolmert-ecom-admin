@@ -3,6 +3,7 @@ import {
   createBrand,
   deleteBrand,
   getAllBrand,
+  updateBrand,
   updateBrandStatus,
 } from "./productApiSlice";
 
@@ -73,6 +74,20 @@ const productSlice = createSlice({
       .addCase(updateBrandStatus.fulfilled, (state, action) => {
         state.brand[
           state.brand.findIndex((data) => data._id === action.payload.brand._id)
+        ] = action.payload.brand;
+        state.message = action.payload.message;
+        state.loader = false;
+      })
+      .addCase(updateBrand.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(updateBrand.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loader = false;
+      })
+      .addCase(updateBrand.fulfilled, (state, action) => {
+        state.brand[
+          state.brand.findIndex((data) => data._id == action.payload.brand._id)
         ] = action.payload.brand;
         state.message = action.payload.message;
         state.loader = false;
