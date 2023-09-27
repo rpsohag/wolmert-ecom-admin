@@ -2,6 +2,7 @@
 
 import PageLayout from "../components/PageLayout/PageLayout";
 import Brand from "../pages/brand/Brand";
+import Category from "../pages/category/Category";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Permission from "../pages/permissions/Permission";
 import Profile from "../pages/profile/Profile";
@@ -44,6 +45,10 @@ const PrivateRouter = [
           {
             path: "/tag",
             element: <Tag />,
+          },
+          {
+            path: "/category",
+            element: <Category />,
           },
         ],
       },

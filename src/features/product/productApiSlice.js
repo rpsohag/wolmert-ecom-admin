@@ -165,3 +165,91 @@ export const deleteTag = createAsyncThunk("product/deleteTag", async (id) => {
     throw new Error(error.response.data.message);
   }
 });
+// get all brand
+export const getProductCategories = createAsyncThunk(
+  "product/getProductCategories",
+  async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/v1/category/categories",
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);
+export const createCategory = createAsyncThunk(
+  "product/createCategory",
+  async (data) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/category/categories/create",
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);
+
+export const updateCategoryStatus = createAsyncThunk(
+  "product/updateCategoryStatus",
+  async ({ id, status }) => {
+    try {
+      const response = await axios.patch(
+        `http://localhost:5000/api/v1/category/categories/status/${id}`,
+        { status: status },
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);
+export const updateCategory = createAsyncThunk(
+  "product/updateCategory",
+  async ({ id, data }) => {
+    // Accept an object with id and data properties
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/v1/category/categories/${id}`, // Use id from the argument
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);
+
+export const deleteCategory = createAsyncThunk(
+  "product/deleteCategory",
+  async (id) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/api/v1/category/categories/${id}`,
+
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);

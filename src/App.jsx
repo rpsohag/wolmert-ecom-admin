@@ -11,7 +11,11 @@ import {
   getAllRoles,
   getAllUser,
 } from "./features/user/userApiSlice";
-import { getAllBrand, getAllTags } from "./features/product/productApiSlice";
+import {
+  getAllBrand,
+  getAllTags,
+  getProductCategories,
+} from "./features/product/productApiSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +30,7 @@ function App() {
     dispatch(getAllUser());
     dispatch(getAllBrand());
     dispatch(getAllTags());
+    dispatch(getProductCategories());
   }, [dispatch]);
   return (
     <>

@@ -40,6 +40,15 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li
+                className={`${
+                  location.pathname === "/category" ? "active" : ""
+                }`}
+              >
+                <Link to="/category">
+                  <i className="fe fe-feather"></i> <span>Category</span>
+                </Link>
+              </li>
+              <li
                 className={`${location.pathname === "/brand" ? "active" : ""}`}
               >
                 <Link to="/brand">

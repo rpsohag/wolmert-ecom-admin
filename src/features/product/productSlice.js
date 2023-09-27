@@ -1,13 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createBrand,
+  createCategory,
   createTag,
   deleteBrand,
+  deleteCategory,
   deleteTag,
   getAllBrand,
   getAllTags,
+  getProductCategories,
   updateBrand,
   updateBrandStatus,
+  updateCategory,
+  updateCategoryStatus,
   updateTag,
   updateTagStatus,
 } from "./productApiSlice";
@@ -18,6 +23,7 @@ const productSlice = createSlice({
   initialState: {
     product: null,
     brand: null,
+    category: null,
     tag: null,
     error: null,
     message: null,
@@ -160,6 +166,74 @@ const productSlice = createSlice({
         state.tag[
           state.tag.findIndex((data) => data._id == action.payload.tag._id)
         ] = action.payload.tag;
+        state.message = action.payload.message;
+        state.loader = false;
+      })
+      .addCase(getProductCategories.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(getProductCategories.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loader = false;
+      })
+      .addCase(getProductCategories.fulfilled, (state, action) => {
+        state.category = action.payload.categories;
+        state.loader = false;
+      })
+      .addCase(createCategory.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(createCategory.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loader = false;
+      })
+      .addCase(createCategory.fulfilled, (state, action) => {
+        state.category = state.category ?? [];
+        state.category.push(action.payload.category);
+        state.message = action.payload.message;
+        state.loader = false;
+      })
+      .addCase(updateCategoryStatus.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(updateCategoryStatus.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loader = false;
+      })
+      .addCase(updateCategoryStatus.fulfilled, (state, action) => {
+        state.category[
+          state.category.findIndex(
+            (data) => data._id === action.payload.category._id
+          )
+        ] = action.payload.category;
+        state.message = action.payload.message;
+        state.loader = false;
+      })
+      .addCase(deleteCategory.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(deleteCategory.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loader = false;
+      })
+      .addCase(deleteCategory.fulfilled, (state, action) => {
+        state.category = state.category.filter(
+          (item) => item._id !== action.payload.category._id
+        );
+        state.message = action.payload.message;
+        state.loader = false;
+      })
+      .addCase(updateCategory.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(updateCategory.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loader = false;
+      })
+      .addCase(updateCategory.fulfilled, (state, action) => {
+        state.category[
+          state.category.findIndex((data) => data._id == action.payload.category._id)
+        ] = action.payload.category;
         state.message = action.payload.message;
         state.loader = false;
       });
